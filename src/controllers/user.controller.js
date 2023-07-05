@@ -3,7 +3,6 @@ const ApiError = require("../utils/ApiError");
 const catchAsync = require("../utils/catchAsync");
 const { userService } = require("../services");
 
-// TODO: CRIO_TASK_MODULE_UNDERSTANDING_BASICS - Implement getUser() function
 /**
  * Get user details
  *  - Use service layer to get User data
@@ -13,6 +12,9 @@ const { userService } = require("../services");
  *  - If data exists for the provided "userId", return 200 status code and the object
  *  - If data doesn't exist, throw an error using `ApiError` class
  *    - Status code should be "404 NOT FOUND"
+ *    - Error message, "User not found"
+ *  - If the user whose token is provided and user whose data to be fetched don't match, throw `ApiError`
+ *    - Status code should be "403 FORBIDDEN"
  *    - Error message, "User not found"
  *
  * 
@@ -33,21 +35,42 @@ const { userService } = require("../services");
  *
  * Example response status codes:
  * HTTP 200 - If request successfully completes
+ * HTTP 403 - If request data doesn't match that of authenticated user
  * HTTP 404 - If user entity not found in DB
  * 
  * @returns {User | {address: String}}
  *
  */
 const getUser = catchAsync(async (req, res) => {
-  let data;
-  // Fetching user's data from req.params.userid. if exists
-    data = await userService.getUserById(req.params.userId);
-  // checking if our datdbase doesn't have any such id. ApiError throwa an error
-  if (!data) {
-    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
-  }
-    res.send(data);
-});
+let data;
+if (req.query.q === "address") {
+  data = await userService.getUserAddressById(req.params.userId);
+} else {
+  data = await userService.getUserById(req.params.userId);
+}
+
+if (!data) {
+  throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+}
+// console.log(req.user.email)
+if (data.email != req.user.email) {
+  throw new ApiError(
+    httpStatus.FORBIDDEN,
+    "User not authorized to access this resource"
+  );
+}
+if (req.query.q === "address") {
+  res.send({
+    address: data.address,
+  });
+} else {
+  res.send(data);
+}
+  }  
+
+
+    
+);
 
 module.exports = {
   getUser,
