@@ -18,8 +18,6 @@ const validate = (schema) => (req, res, next) => {
     );
   }
 
-  // console.log("validate me :- " ,req.body,Object.keys(req.body),Object.keys(req.body).length,!req.is("application/json"))
-
   // cherry-pick from the input schema ["params", "query", "body"] fields
   const validSchema = pick(schema, ["params", "query", "body"]);
 
