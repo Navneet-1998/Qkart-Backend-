@@ -31,7 +31,7 @@ const { cartService } = require("../services");
  * 
  *
  */
- const getCart = catchAsync(async (req, res) => {
+const getCart = catchAsync(async (req, res) => {
   const cart = await cartService.getCartByUser(req.user);
   res.send(cart);
 });
@@ -41,7 +41,7 @@ const { cartService } = require("../services");
  *
  *
  */
- const addProductToCart = catchAsync(async (req, res) => {
+const addProductToCart = catchAsync(async (req, res) => {
   const cart = await cartService.addProductToCart(
     req.user,
     req.body.productId,
@@ -68,8 +68,7 @@ const { cartService } = require("../services");
  *
  */
  const updateProductInCart = catchAsync(async (req, res) => {
-  // CRIO_SOLUTION_START_MODULE_CART
-  // If quantity is set to zero, delete product entry from cart
+
   if (req.body.quantity == 0) {
     await cartService.deleteProductFromCart(req.user, req.body.productId);
     return res.status(httpStatus.NO_CONTENT).send();
@@ -86,13 +85,13 @@ const { cartService } = require("../services");
 
 const checkout = catchAsync(async (req, res) => {
   await cartService.checkout(req.user);
+
   return (
     res
       .status(httpStatus.NO_CONTENT)
       .send()
   );
 });
-
 
 module.exports = {
   getCart,

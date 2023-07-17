@@ -1,5 +1,3 @@
-// CRIO_SOLUTION_START_MODULE_CART
-// CRIO_SOLUTION_END_MODULE_CART
 const express = require("express");
 const validate = require("../../middlewares/validate");
 const auth = require("../../middlewares/auth");

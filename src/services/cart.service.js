@@ -252,5 +252,3 @@ module.exports = {
   deleteProductFromCart,
   checkout,
 };
-
-
