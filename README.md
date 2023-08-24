@@ -1,7 +1,5 @@
 # Qkart-Backend-
-deployed on netlify :- https://qkart-frontend-updated.netlify.app/
-
-                       https://64c6d2d103fc333cfda9b025--qkartbackend-2023.netlify.app/
+deployed on netlify :- https://64c6d2d103fc333cfda9b025--qkartbackend-2023.netlify.app/
 
 "QKart is an E-commerce application offering a variety of products for customers to choose from. 
 
